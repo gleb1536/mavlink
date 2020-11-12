@@ -1900,8 +1900,17 @@
       <entry value="12" name="MAV_DATA_STREAM_EXTRA3">
         <description>Dependent on the autopilot</description>
       </entry>
-      <entry value="13" name="MAV_DATA_STREAM_ALBATROS1">
-        <description>Dependent on the autopilot</description>
+      <entry value="13" name="MAV_DATA_STREAM_ALBATROS_1">
+        <description>Albatros data where default send frequency 1Hz </description>
+      </entry>
+      <entry value="14" name="MAV_DATA_STREAM_ALBATROS_2_4">
+        <description>Albatros data where default send frequency from 2 to 4 Hz</description>
+      </entry>
+      <entry value="15" name="MAV_DATA_STREAM_ALBATROS_4">
+        <description>Albatros data where default send frequency 4Hz </description>
+      </entry>
+      <entry value="16" name="MAV_DATA_STREAM_ALBATROS_10">
+        <description>Albatros data where default send frequency 10Hz </description>
       </entry>
     </enum>
     <enum name="MAV_ROI">
@@ -4437,6 +4446,40 @@
       <field type="float" name="yawspeed" units="rad/s">Yaw angular speed</field>
       <field type="float[21]" name="pose_covariance">Pose (states: x, y, z, roll, pitch, yaw) covariance matrix upper right triangle (first six entries are the first ROW, next five entries are the second ROW, etc.)</field>
       <field type="float[21]" name="twist_covariance">Twist (states: vx, vy, vz, rollspeed, pitchspeed, yawspeed) covariance matrix upper right triangle (first six entries are the first ROW, next five entries are the second ROW, etc.)</field>
+    </message>
+    <message id="225" name="ALBATROS_10_MSG">
+      <description>Message that sends 10 times per sec for Albatros</description>
+      <field type="float" name="roll" units="rad">Roll angle (rad, -pi..+pi)</field>
+      <field type="float" name="pitch" units="rad">Pitch angle (rad, -pi..+pi)</field>
+    </message>
+    <message id="224" name="ALBATROS_2_4_MSG">
+      <description>Message that sends from 2 to 4 times per sec for Albatros</description>
+      <field type="float" name="airspeed" units="m/s">Current airspeed in m/s</field>
+      <field type="float" name="groundspeed" units="m/s">Current ground speed in m/s</field>
+      <field type="uint16_t" name="throttle" units="%">Current throttle setting in integer percent, 0 to 100</field>
+      <field type="float" name="alt" units="m">Current altitude (MSL), in meters</field>
+      <field type="int16_t" name="current_battery" units="cA">Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current</field>
+      <field type="int32_t" name="current_consumed" units="mAh">Consumed charge, in milliampere hours (1 = 1 mAh), -1: autopilot does not provide mAh consumption estimate</field>
+      <field type="uint16_t" name="voltage_battery" units="mV">Battery voltage, in millivolts (1 = 1 millivolt)</field>
+      <field type="float" name="vibration_z">Vibration levels on Z-axis</field>
+      <field type="int32_t" name="lat" units="degE7">Latitude (WGS84, EGM96 ellipsoid), in degrees * 1E7</field>
+      <field type="int32_t" name="lon" units="degE7">Longitude (WGS84, EGM96 ellipsoid), in degrees * 1E7</field>
+      <field type="float" name="climb" units="m/s">Current climb rate in meters/second</field>
+    </message>
+    <message id="227" name="ALBATROS_1_MSG">
+      <description>Message that sends 4 times per sec for Albatros</description>
+      <field type="float" name="yaw" units="rad">Yaw angle (rad, -pi..+pi)</field>
+      <field type="float" name="target_alt" units="m">Altitude in meters in AMSL altitude, not WGS84 if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT</field>
+      <field type="int8_t" name="battery_remaining" units="%">Remaining battery energy: (0%: 0, 100%: 100), -1: autopilot does not estimate the remaining battery</field>
+      <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp of the component clock since boot time in milliseconds.</field>
+      <field type="uint16_t" name="hdg" units="cdeg">Vehicle heading (yaw angle) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX</field>
+      <field type="uint8_t" name="fix_type" enum="GPS_FIX_TYPE">See the GPS_FIX_TYPE enum.</field>
+      <field type="uint8_t" name="satellites_visible">Number of satellites visible</field>
+    </message>
+    <message id="228" name="ALBATROS_4_MSG">
+      <description>Message that sends 1 times per sec for Albatros</description>
+      <field type="int32_t" name="alt" units="mm">Altitude in meters, expressed as * 1000 (millimeters), AMSL (not WGS84 - note that virtually all GPS modules provide the AMSL as well)</field>
+      <field type="int32_t" name="relative_alt" units="mm">Altitude above ground in meters, expressed as * 1000 (millimeters)</field>
     </message>
   </messages>
 </mavlink>
